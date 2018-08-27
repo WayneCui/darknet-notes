@@ -16,7 +16,7 @@ layer make_yolo_layer(int batch, int w, int h, int n, int total, int *mask, int 
     layer l = {0};
     l.type = YOLO;
 
-    l.n = n;
+    l.n = n;        //num
     l.total = total;
     l.batch = batch;
     l.h = h;
@@ -179,6 +179,10 @@ void forward_yolo_layer(const layer l, network net)
                     if (best_iou > l.ignore_thresh) {
                         l.delta[obj_index] = 0;
                     }
+                    
+                    
+                    //truth_thresh doesn't have to be set to 1.
+                    //See this: https://github.com/pjreddie/darknet/issues/601#issuecomment-377576005
                     if (best_iou > l.truth_thresh) {
                         l.delta[obj_index] = 1 - l.output[obj_index];
 
